@@ -1,5 +1,10 @@
 package com.valkyrie.game;
 
+//Naci Burak KARABULUT
+//Bahtiyar Ali ALHAS
+//Kutay Cavusoglu
+//Utku Berk Simsek
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -73,7 +78,7 @@ public class valkyrie extends ApplicationAdapter {
 
         //SCORE BOARD STYLE
 		font = new BitmapFont();
-		font.setColor(Color.BLUE);
+		font.setColor(Color.RED);
 		font.getData().setScale(4);
 
         //GAME OVER STYLE
