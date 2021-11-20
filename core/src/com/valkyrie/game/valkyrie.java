@@ -34,19 +34,22 @@ public class valkyrie extends ApplicationAdapter {
     Random random;
     int score = 0;
     int scoredEnemy = 0;
+    BitmapFont play;
     BitmapFont font;
     BitmapFont font2;
+
 
     Circle ufoCircle;
 
     ShapeRenderer shapeRenderer;
 
-    int numberOfEnemies = 4;
+    int numberOfEnemies = 5;
     float[] enemyX = new float[numberOfEnemies];
+    float[] enemyY = new float[numberOfEnemies];
     float[] enemyOffSet = new float[numberOfEnemies];
     float[] enemyOffSet2 = new float[numberOfEnemies];
     float[] enemyOffSet3 = new float[numberOfEnemies];
-    float distance = 0;
+    float distance;
 
     Circle[] enemyCircles;
     Circle[] enemyCircles2;
@@ -58,15 +61,15 @@ public class valkyrie extends ApplicationAdapter {
         batch = new SpriteBatch();
         background = new Texture("background.png");
         ufo = new Texture("ufo.png");
-        meteor1 = new Texture("meteor4.png");
-        meteor2 = new Texture("meteor4.png");
-        meteor3 = new Texture("meteor4.png");
+        meteor1 = new Texture("meteor.png");
+        meteor2 = new Texture("meteor.png");
+        meteor3 = new Texture("meteor.png");
 
-        distance = Gdx.graphics.getWidth() / 2;
+        distance = Gdx.graphics.getWidth() / 2f;
         random = new Random();
 
-        ufoX = Gdx.graphics.getWidth() / 2 - ufo.getHeight() / 2;
-        ufoY = Gdx.graphics.getHeight() / 3;
+        ufoX = Gdx.graphics.getWidth() / 2f - ufo.getHeight() / 2f;
+        ufoY = Gdx.graphics.getHeight() / 3f;
 
         shapeRenderer = new ShapeRenderer();
 
@@ -74,6 +77,12 @@ public class valkyrie extends ApplicationAdapter {
         enemyCircles = new Circle[numberOfEnemies];
         enemyCircles2 = new Circle[numberOfEnemies];
         enemyCircles3 = new Circle[numberOfEnemies];
+
+        //TAP TO PLAY
+        play = new BitmapFont();
+        play.setColor(Color.GREEN);
+        play.getData().setScale(6f);
+
 
         //SCORE BOARD STYLE
         font = new BitmapFont();
@@ -83,7 +92,7 @@ public class valkyrie extends ApplicationAdapter {
         //GAME OVER STYLE
         font2 = new BitmapFont();
         font2.setColor(Color.RED);
-        font2.getData().setScale(6);
+        font2.getData().setScale(6f);
 
 
         //NUMBER OF ENEMY
@@ -93,8 +102,8 @@ public class valkyrie extends ApplicationAdapter {
             enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
             enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
 
-            enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2 + i * distance;
-
+            enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2f + i * distance;
+            enemyY[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2f + i * distance;
 
             enemyCircles[i] = new Circle();
             enemyCircles2[i] = new Circle();
@@ -112,8 +121,7 @@ public class valkyrie extends ApplicationAdapter {
 
         if (gameState == 1) {
 
-
-            if (enemyX[scoredEnemy] < Gdx.graphics.getWidth() / 2 - ufo.getHeight() / 2) {
+            if (enemyX[scoredEnemy] < Gdx.graphics.getWidth() / 2f - ufo.getHeight() / 2f) {
                 score++;
 
                 if (scoredEnemy < numberOfEnemies - 1) {
@@ -133,10 +141,17 @@ public class valkyrie extends ApplicationAdapter {
             }
 
 
+
+
+
+
+
+
             for (int i = 0; i < numberOfEnemies; i++) {
 
+
                 //METEOR POSITIONS
-                if (enemyX[i] < Gdx.graphics.getWidth() / 15) {
+                if (enemyX[i] < Gdx.graphics.getWidth() / 15f) {
                     enemyX[i] = enemyX[i] + numberOfEnemies * distance;
 
                     enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
@@ -149,40 +164,47 @@ public class valkyrie extends ApplicationAdapter {
                 }
 
 
-                batch.draw(meteor1, enemyX[i], Gdx.graphics.getHeight() / 2 + enemyOffSet[i], Gdx.graphics.getWidth() / 7, Gdx.graphics.getHeight() / 5);
-                batch.draw(meteor2, enemyX[i], Gdx.graphics.getHeight() / 2 + enemyOffSet2[i], Gdx.graphics.getWidth() / 15, Gdx.graphics.getHeight() / 10);
-                batch.draw(meteor3, enemyX[i], Gdx.graphics.getHeight() / 2 + enemyOffSet3[i], Gdx.graphics.getWidth() / 10, Gdx.graphics.getHeight() / 7);
+                batch.draw(meteor1, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet2[i], Gdx.graphics.getWidth() / 15f, Gdx.graphics.getHeight() / 10f);
+                batch.draw(meteor2, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet3[i], Gdx.graphics.getWidth() / 10f, Gdx.graphics.getHeight() / 7f);
+                batch.draw(meteor3, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet[i], Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 3f);
 
 
-                enemyCircles[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30, Gdx.graphics.getHeight() / 2 + enemyOffSet[i] + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
-                enemyCircles2[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30, Gdx.graphics.getHeight() / 2 + enemyOffSet2[i] + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
-                enemyCircles3[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30, Gdx.graphics.getHeight() / 2 + enemyOffSet3[i] + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
-
+                enemyCircles[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30f, Gdx.graphics.getHeight() / 2f + enemyOffSet[i] + Gdx.graphics.getHeight() / 20f, Gdx.graphics.getWidth() / 30f);
+                enemyCircles2[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30f, Gdx.graphics.getHeight() / 2f + enemyOffSet2[i] + Gdx.graphics.getHeight() / 20f, Gdx.graphics.getWidth() / 30f);
+                enemyCircles3[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30f, Gdx.graphics.getHeight() / 2f + enemyOffSet3[i] + Gdx.graphics.getHeight() / 20f, Gdx.graphics.getWidth() / 30f);
 
             }
 
+            if(ufoY > Gdx.graphics.getHeight()/1.1){
+                ufoY = Gdx.graphics.getHeight()/ 1.125f;
+                velocity = 0;
 
+            }
             if (ufoY > 0) {
                 velocity = velocity + gravity;
                 ufoY = ufoY - velocity;
 
-            } else {
+            }
+            else {
                 gameState = 2;
             }
 
 
+
         } else if (gameState == 0) {
+            play.draw(batch, "Tap to Play", Gdx.graphics.getWidth() / 2.5f, Gdx.graphics.getHeight() / 2f);
             if (Gdx.input.justTouched()) {
+
                 gameState = 1;
             }
         } else if (gameState == 2) {
 
-            font2.draw(batch, "Game Over! Tap To Play Again!", 100, Gdx.graphics.getHeight() / 2);
+            font2.draw(batch, "Game Over! Tap To Play Again!", Gdx.graphics.getWidth() / 6f, Gdx.graphics.getHeight() / 2f);
 
             if (Gdx.input.justTouched()) {
                 gameState = 1;
 
-                ufoY = Gdx.graphics.getHeight() / 2;
+                ufoY = Gdx.graphics.getHeight() / 2f;
 
 
                 for (int i = 0; i < numberOfEnemies; i++) {
@@ -192,7 +214,7 @@ public class valkyrie extends ApplicationAdapter {
                     enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
                     enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
 
-                    enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2 + i * distance;
+                    enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2f + i * distance;
 
 
                     enemyCircles[i] = new Circle();
@@ -209,13 +231,13 @@ public class valkyrie extends ApplicationAdapter {
         }
 
 
-        batch.draw(ufo, ufoX, ufoY, Gdx.graphics.getWidth() / 15, Gdx.graphics.getHeight() / 10);
+        batch.draw(ufo, ufoX, ufoY, Gdx.graphics.getWidth() / 15f, Gdx.graphics.getHeight() / 10f);
 
         font.draw(batch, String.valueOf(score), 100, 200);
 
         batch.end();
 
-        ufoCircle.set(ufoX + Gdx.graphics.getWidth() / 30, ufoY + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
+        ufoCircle.set(ufoX + Gdx.graphics.getWidth() / 30f, ufoY + Gdx.graphics.getHeight() / 20f, Gdx.graphics.getWidth() / 30f);
 
 
         for (int i = 0; i < numberOfEnemies; i++) {
