@@ -8,7 +8,6 @@ package com.valkyrie.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,224 +19,216 @@ import java.util.Random;
 
 public class valkyrie extends ApplicationAdapter {
 
-	SpriteBatch batch;
+    SpriteBatch batch;
     Texture background;
     Texture ufo;
-	Texture meteor1;
-	Texture meteor2;
-	Texture meteor3;
+    Texture meteor1;
+    Texture meteor2;
+    Texture meteor3;
     float ufoX = 0;
-	float ufoY = 0;
+    float ufoY = 0;
     int gameState = 0;
     float velocity = 0;
-	float gravity = 0.1f;
-	float enemyVelocity = 2;
-	Random random;
-	int score = 0;
-	int scoredEnemy = 0;
-	BitmapFont font;
-	BitmapFont font2;
+    float gravity = 0.1f;
+    float enemyVelocity = 2;
+    Random random;
+    int score = 0;
+    int scoredEnemy = 0;
+    BitmapFont font;
+    BitmapFont font2;
 
-	Circle ufoCircle;
+    Circle ufoCircle;
 
-	ShapeRenderer shapeRenderer;
+    ShapeRenderer shapeRenderer;
 
-	int numberOfEnemies = 4;
-	float [] enemyX = new float[numberOfEnemies];
-	float [] enemyOffSet = new float[numberOfEnemies];
-	float [] enemyOffSet2 = new float[numberOfEnemies];
-	float [] enemyOffSet3 = new float[numberOfEnemies];
-	float distance = 0;
+    int numberOfEnemies = 4;
+    float[] enemyX = new float[numberOfEnemies];
+    float[] enemyOffSet = new float[numberOfEnemies];
+    float[] enemyOffSet2 = new float[numberOfEnemies];
+    float[] enemyOffSet3 = new float[numberOfEnemies];
+    float distance = 0;
 
-	Circle[] enemyCircles;
-	Circle[] enemyCircles2;
-	Circle[] enemyCircles3;
+    Circle[] enemyCircles;
+    Circle[] enemyCircles2;
+    Circle[] enemyCircles3;
 
 
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		background = new Texture("background.png");
-		ufo = new Texture("ufo.png");
-		meteor1 = new Texture("meteor4.png");
-		meteor2 = new Texture("meteor4.png");
-		meteor3 = new Texture("meteor4.png");
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        background = new Texture("background.png");
+        ufo = new Texture("ufo.png");
+        meteor1 = new Texture("meteor4.png");
+        meteor2 = new Texture("meteor4.png");
+        meteor3 = new Texture("meteor4.png");
 
-		distance = Gdx.graphics.getWidth() / 2;
-		random = new Random();
+        distance = Gdx.graphics.getWidth() / 2;
+        random = new Random();
 
-		ufoX = Gdx.graphics.getWidth() / 2 - ufo.getHeight() / 2;
-		ufoY = Gdx.graphics.getHeight() / 3;
+        ufoX = Gdx.graphics.getWidth() / 2 - ufo.getHeight() / 2;
+        ufoY = Gdx.graphics.getHeight() / 3;
 
-		shapeRenderer = new ShapeRenderer();
+        shapeRenderer = new ShapeRenderer();
 
-		ufoCircle = new Circle();
-		enemyCircles = new Circle[numberOfEnemies];
-		enemyCircles2 = new Circle[numberOfEnemies];
-		enemyCircles3 = new Circle[numberOfEnemies];
+        ufoCircle = new Circle();
+        enemyCircles = new Circle[numberOfEnemies];
+        enemyCircles2 = new Circle[numberOfEnemies];
+        enemyCircles3 = new Circle[numberOfEnemies];
 
         //SCORE BOARD STYLE
-		font = new BitmapFont();
-		font.setColor(Color.RED);
-		font.getData().setScale(4);
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().setScale(4);
 
         //GAME OVER STYLE
-		font2 = new BitmapFont();
-		font2.setColor(Color.RED);
-		font2.getData().setScale(6);
+        font2 = new BitmapFont();
+        font2.setColor(Color.RED);
+        font2.getData().setScale(6);
 
 
-		//NUMBER OF ENEMY
-		for (int i = 0; i<numberOfEnemies; i++) {
+        //NUMBER OF ENEMY
+        for (int i = 0; i < numberOfEnemies; i++) {
 
+            enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+            enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+            enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
 
-			enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
-			enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
-			enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+            enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2 + i * distance;
 
-			enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2 + i * distance;
 
+            enemyCircles[i] = new Circle();
+            enemyCircles2[i] = new Circle();
+            enemyCircles3[i] = new Circle();
 
-			enemyCircles[i] = new Circle();
-			enemyCircles2[i] = new Circle();
-			enemyCircles3[i] = new Circle();
+        }
 
-		}
 
+    }
 
+    @Override
+    public void render() {
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-	}
+        if (gameState == 1) {
 
-	@Override
-	public void render () {
-		batch.begin();
-		batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
-		if (gameState ==1) {
+            if (enemyX[scoredEnemy] < Gdx.graphics.getWidth() / 2 - ufo.getHeight() / 2) {
+                score++;
 
+                if (scoredEnemy < numberOfEnemies - 1) {
+                    scoredEnemy++;
+                } else {
+                    scoredEnemy = 0;
+                }
 
+            }
 
-			if (enemyX[scoredEnemy] < Gdx.graphics.getWidth() / 2 - ufo.getHeight() / 2) {
-				score++;
 
-				if (scoredEnemy < numberOfEnemies - 1) {
-					scoredEnemy++;
-				} else {
-					scoredEnemy = 0;
-				}
+            if (Gdx.input.justTouched()) {
 
-			}
+                //higher jump if decrease
+                velocity = -5;
 
+            }
 
 
-			if (Gdx.input.justTouched()) {
+            for (int i = 0; i < numberOfEnemies; i++) {
 
-				//higher jump if decrease
-				velocity = -5;
+                //METEOR POSITIONS
+                if (enemyX[i] < Gdx.graphics.getWidth() / 15) {
+                    enemyX[i] = enemyX[i] + numberOfEnemies * distance;
 
-			}
+                    enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+                    enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+                    enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
 
 
-			for (int i = 0; i < numberOfEnemies; i++) {
+                } else {
+                    enemyX[i] = enemyX[i] - enemyVelocity;
+                }
 
-                    //METEOR POSITIONS
-				if (enemyX[i] < Gdx.graphics.getWidth() / 15) {
-					enemyX[i] = enemyX[i] + numberOfEnemies * distance;
 
-					enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
-					enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
-					enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+                batch.draw(meteor1, enemyX[i], Gdx.graphics.getHeight() / 2 + enemyOffSet[i], Gdx.graphics.getWidth() / 7, Gdx.graphics.getHeight() / 5);
+                batch.draw(meteor2, enemyX[i], Gdx.graphics.getHeight() / 2 + enemyOffSet2[i], Gdx.graphics.getWidth() / 15, Gdx.graphics.getHeight() / 10);
+                batch.draw(meteor3, enemyX[i], Gdx.graphics.getHeight() / 2 + enemyOffSet3[i], Gdx.graphics.getWidth() / 10, Gdx.graphics.getHeight() / 7);
 
 
-				} else {
-					enemyX[i] = enemyX[i] - enemyVelocity;
-				}
+                enemyCircles[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30, Gdx.graphics.getHeight() / 2 + enemyOffSet[i] + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
+                enemyCircles2[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30, Gdx.graphics.getHeight() / 2 + enemyOffSet2[i] + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
+                enemyCircles3[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30, Gdx.graphics.getHeight() / 2 + enemyOffSet3[i] + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
 
 
-				batch.draw(meteor1,enemyX[i],Gdx.graphics.getHeight()/2 + enemyOffSet[i],Gdx.graphics.getWidth() / 15,Gdx.graphics.getHeight() / 10);
-				batch.draw(meteor2,enemyX[i],Gdx.graphics.getHeight()/2 + enemyOffSet2[i],Gdx.graphics.getWidth() / 15,Gdx.graphics.getHeight() / 10);
-				batch.draw(meteor3,enemyX[i],Gdx.graphics.getHeight()/2 + enemyOffSet3[i],Gdx.graphics.getWidth() / 15,Gdx.graphics.getHeight() / 10);
+            }
 
 
-				enemyCircles[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30,  Gdx.graphics.getHeight()/2 + enemyOffSet[i] + Gdx.graphics.getHeight() / 20,Gdx.graphics.getWidth() / 30);
-				enemyCircles2[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30,  Gdx.graphics.getHeight()/2 + enemyOffSet2[i] + Gdx.graphics.getHeight() / 20,Gdx.graphics.getWidth() / 30);
-				enemyCircles3[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30,  Gdx.graphics.getHeight()/2 + enemyOffSet3[i] + Gdx.graphics.getHeight() / 20,Gdx.graphics.getWidth() / 30);
+            if (ufoY > 0) {
+                velocity = velocity + gravity;
+                ufoY = ufoY - velocity;
 
+            } else {
+                gameState = 2;
+            }
 
-			}
 
+        } else if (gameState == 0) {
+            if (Gdx.input.justTouched()) {
+                gameState = 1;
+            }
+        } else if (gameState == 2) {
 
+            font2.draw(batch, "Game Over! Tap To Play Again!", 100, Gdx.graphics.getHeight() / 2);
 
-			if (ufoY > 0) {
-				velocity = velocity + gravity;
-				ufoY = ufoY - velocity;
+            if (Gdx.input.justTouched()) {
+                gameState = 1;
 
-			} else {
-				gameState = 2;
-			}
+                ufoY = Gdx.graphics.getHeight() / 2;
 
 
-		} else if (gameState == 0) {
-			if (Gdx.input.justTouched()) {
-				gameState = 1;
-			}
-		} else if (gameState == 2) {
+                for (int i = 0; i < numberOfEnemies; i++) {
 
-			font2.draw(batch,"Game Over! Tap To Play Again!",100,Gdx.graphics.getHeight() / 2);
 
-			if (Gdx.input.justTouched()) {
-				gameState = 1;
+                    enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+                    enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+                    enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
 
-				ufoY = Gdx.graphics.getHeight() / 3;
+                    enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2 + i * distance;
 
 
+                    enemyCircles[i] = new Circle();
+                    enemyCircles2[i] = new Circle();
+                    enemyCircles3[i] = new Circle();
 
-				for (int i = 0; i<numberOfEnemies; i++) {
+                }
 
+                velocity = 0;
+                scoredEnemy = 0;
+                score = 0;
 
-					enemyOffSet[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
-					enemyOffSet2[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
-					enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
+            }
+        }
 
-					enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2 + i * distance;
 
+        batch.draw(ufo, ufoX, ufoY, Gdx.graphics.getWidth() / 15, Gdx.graphics.getHeight() / 10);
 
-					enemyCircles[i] = new Circle();
-					enemyCircles2[i] = new Circle();
-					enemyCircles3[i] = new Circle();
+        font.draw(batch, String.valueOf(score), 100, 200);
 
-				}
+        batch.end();
 
-				velocity = 0;
-				scoredEnemy = 0;
-				score = 0;
+        ufoCircle.set(ufoX + Gdx.graphics.getWidth() / 30, ufoY + Gdx.graphics.getHeight() / 20, Gdx.graphics.getWidth() / 30);
 
-			}
-		}
 
+        for (int i = 0; i < numberOfEnemies; i++) {
 
-		batch.draw(ufo,ufoX, ufoY, Gdx.graphics.getWidth() / 15,Gdx.graphics.getHeight() / 10);
+            if (Intersector.overlaps(ufoCircle, enemyCircles[i]) || Intersector.overlaps(ufoCircle, enemyCircles2[i]) || Intersector.overlaps(ufoCircle, enemyCircles3[i])) {
+                gameState = 2;
+            }
+        }
 
-		font.draw(batch,String.valueOf(score),100,200);
+    }
 
-		batch.end();
+    @Override
+    public void dispose() {
 
-		ufoCircle.set(ufoX +Gdx.graphics.getWidth() / 30 ,ufoY + Gdx.graphics.getHeight() / 20,Gdx.graphics.getWidth() / 30);
-
-
-
-
-		for ( int i = 0; i < numberOfEnemies; i++) {
-
-			if (Intersector.overlaps(ufoCircle,enemyCircles[i]) || Intersector.overlaps(ufoCircle,enemyCircles2[i]) || Intersector.overlaps(ufoCircle,enemyCircles3[i])) {
-				gameState = 2;
-			}
-		}
-
-	}
-
-	@Override
-	public void dispose () {
-
-	}
+    }
 }
