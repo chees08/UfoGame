@@ -45,7 +45,6 @@ public class valkyrie extends ApplicationAdapter {
 
     int numberOfEnemies = 5;
     float[] enemyX = new float[numberOfEnemies];
-    float[] enemyY = new float[numberOfEnemies];
     float[] enemyOffSet = new float[numberOfEnemies];
     float[] enemyOffSet2 = new float[numberOfEnemies];
     float[] enemyOffSet3 = new float[numberOfEnemies];
@@ -103,14 +102,13 @@ public class valkyrie extends ApplicationAdapter {
             enemyOffSet3[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - 200);
 
             enemyX[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2f + i * distance;
-            enemyY[i] = Gdx.graphics.getWidth() - meteor1.getWidth() / 2f + i * distance;
+
 
             enemyCircles[i] = new Circle();
             enemyCircles2[i] = new Circle();
             enemyCircles3[i] = new Circle();
 
         }
-
 
     }
 
@@ -123,6 +121,7 @@ public class valkyrie extends ApplicationAdapter {
 
             if (enemyX[scoredEnemy] < Gdx.graphics.getWidth() / 2f - ufo.getHeight() / 2f) {
                 score++;
+                enemyVelocity += 0.2;
 
                 if (scoredEnemy < numberOfEnemies - 1) {
                     scoredEnemy++;
@@ -139,12 +138,6 @@ public class valkyrie extends ApplicationAdapter {
                 velocity = -5;
 
             }
-
-
-
-
-
-
 
 
             for (int i = 0; i < numberOfEnemies; i++) {
@@ -164,9 +157,9 @@ public class valkyrie extends ApplicationAdapter {
                 }
 
 
-                batch.draw(meteor1, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet2[i], Gdx.graphics.getWidth() / 15f, Gdx.graphics.getHeight() / 10f);
+                batch.draw(meteor1, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet2[i], Gdx.graphics.getWidth() / 10f, Gdx.graphics.getHeight() / 7f);
                 batch.draw(meteor2, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet3[i], Gdx.graphics.getWidth() / 10f, Gdx.graphics.getHeight() / 7f);
-                batch.draw(meteor3, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet[i], Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 3f);
+                batch.draw(meteor3, enemyX[i], Gdx.graphics.getHeight() / 2f + enemyOffSet[i], Gdx.graphics.getWidth() / 10f, Gdx.graphics.getHeight() / 7f);
 
 
                 enemyCircles[i] = new Circle(enemyX[i] + Gdx.graphics.getWidth() / 30f, Gdx.graphics.getHeight() / 2f + enemyOffSet[i] + Gdx.graphics.getHeight() / 20f, Gdx.graphics.getWidth() / 30f);
@@ -175,8 +168,8 @@ public class valkyrie extends ApplicationAdapter {
 
             }
 
-            if(ufoY > Gdx.graphics.getHeight()/1.1){
-                ufoY = Gdx.graphics.getHeight()/ 1.125f;
+            if (ufoY > Gdx.graphics.getHeight() / 1.1) {
+                ufoY = Gdx.graphics.getHeight() / 1.125f;
                 velocity = 0;
 
             }
@@ -184,17 +177,16 @@ public class valkyrie extends ApplicationAdapter {
                 velocity = velocity + gravity;
                 ufoY = ufoY - velocity;
 
-            }
-            else {
+            } else {
                 gameState = 2;
             }
 
 
-
         } else if (gameState == 0) {
             play.draw(batch, "Tap to Play", Gdx.graphics.getWidth() / 2.5f, Gdx.graphics.getHeight() / 2f);
-            if (Gdx.input.justTouched()) {
 
+            if (Gdx.input.justTouched()) {
+                enemyVelocity = 2;
                 gameState = 1;
             }
         } else if (gameState == 2) {
@@ -203,7 +195,7 @@ public class valkyrie extends ApplicationAdapter {
 
             if (Gdx.input.justTouched()) {
                 gameState = 1;
-
+                enemyVelocity = 2;
                 ufoY = Gdx.graphics.getHeight() / 2f;
 
 
