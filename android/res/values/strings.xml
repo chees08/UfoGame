@@ -2,5 +2,7 @@
 <resources>
 
     <string name="app_name">valkyrie</string>
+    <string name="button">Button</string>
+    <string name="startButton">Button</string>
 
 </resources>
