@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.valkyrie.game">
+
+    <application
+        android:allowBackup="false"
+        android:appCategory="game"
+        android:icon="@drawable/ic_launcher"
+        android:isGame="true"
+        android:label="@string/app_name"
+        android:theme="@style/GdxTheme"
+        tools:targetApi="o">
+
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/SplashStyle">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.valkyrie.game.AndroidLauncher"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
+            android:exported="true"
+            android:label="AndroidLauncher"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action." />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+    </application>
+
+</manifest>
