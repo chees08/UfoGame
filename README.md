@@ -143,7 +143,7 @@ The same thing with gameState = 1 and 2
 
 39-)And its displays score!
 
-40-) lASTLY BUT NOT LEAST, our game technically can be game over but we wanted to visualise it , just like previously do display our score , we made another Bitmapfont , after entering parameters , we draw 'Game over' to right under gamestatus==2
+40-) LASTLY BUT NOT LEAST, our game technically can be game over but we wanted to visualise it , just like previously do display our score , we made another Bitmapfont , after entering parameters , we draw 'Game over' to right under gamestatus==2
 
 
 ===============================================================================================
