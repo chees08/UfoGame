@@ -151,10 +151,6 @@ Hope you liked it
 
 Thank you 
 
-Naci Burak KARABULUT
-Bahtiyar Ali ALHAS
-Kutay Cavusoglu
-Utku Berk Simsek
 
 
 
