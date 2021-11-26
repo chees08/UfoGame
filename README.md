@@ -149,7 +149,7 @@ The same thing with gameState = 1 and 2
 ===============================================================================================
 Bug Fixes and Improvements according to feedback from Teacher
 
-*Our bird could go up infinity, we left it this way to make it easier to test our score Algorithm, after we made sure it all was working , we simply made it Bounce from Upper edge by adjusting ufoY And by making velocity 0  so it will make the bounce looking effect
+*Our ufo could go up infinity, we left it this way to make it easier to test our score Algorithm, after we made sure it all was working , we simply made it Bounce from Upper edge by adjusting ufoY And by making velocity 0  so it will make the bounce looking effect
 
 *Splash screen :we wanted to make a quick splash screen right after our APK would lunch , and we made it happen quick open screen before switching to main activity ,  we created a second activity to make this Splash screen , the way it happens is really simple, right APK launches SplashScreen Activity opens first and then starts main activity by new intent, 
 
