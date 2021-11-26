@@ -1,9 +1,6 @@
 # UfoGame
 
-#Naci Burak KARABULUT
-#Kutay Cavusoglu
-#Utku Berk Simsek
-#Bahtiyar Ali Alhas
+Naci Burak KARABULUT          Kutay Cavusoglu           Utku Berk Simsek            Bahtiyar Ali Alhas
 
 
 UFO Game Logs
